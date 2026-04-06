@@ -38,9 +38,11 @@ public class AccountService {
         }
     }
 
-    public static void transferMoney(Account from, int toId, double amount) throws AuthenticationServiceException, AccountNotFoundException {
+    public static void transferMoney(Account from, int toId, double amount) throws AuthenticationServiceException, AccountNotFoundException, BusinessRuleViolationException {
 
         if (amount <= 0) throw new IllegalArgumentException("Amount must greater than 0");
+
+        if (from.getBalance()<amount) throw new BusinessRuleViolationException("Insufficient funds");
 
         //exists
         Account to = accountExists(toId);
@@ -69,8 +71,10 @@ public class AccountService {
         }
     }
 
-    public static void withdrawMoney(Account account, double amount) throws AccountNotFoundException, AuthenticationServiceException {
+    public static void withdrawMoney(Account account, double amount) throws AccountNotFoundException, AuthenticationServiceException, BusinessRuleViolationException {
         if (amount <= 0) throw new IllegalArgumentException("Amount must greater than 0");
+
+        if (account.getBalance()<amount) throw new BusinessRuleViolationException("Insufficient funds");
 
         try{
             AccountRepository.changeBalance(account.getId(), -amount);

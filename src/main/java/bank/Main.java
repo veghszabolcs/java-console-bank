@@ -149,6 +149,8 @@ public class Main {
                             System.err.println("Invalid account selected, please try again");
                         } catch (AuthenticationServiceException e) {
                             throw new RuntimeException("Server error, try again later");
+                        } catch (BusinessRuleViolationException e) {
+                            System.err.println(e.getMessage());
                         }
                         break;
                     case "3":
@@ -194,6 +196,8 @@ public class Main {
                             System.err.println("Invalid account selected, please try again");
                         } catch (AuthenticationServiceException e) {
                             throw new RuntimeException("Server error, try again later");
+                        } catch (BusinessRuleViolationException e) {
+                            System.err.println(e.getMessage());
                         }
                         break;
                     case "5":
